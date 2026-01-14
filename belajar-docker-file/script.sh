@@ -44,5 +44,35 @@ docker container start expose
 docker container ls
 docker container stop expose
 
+# ENV Instruction
+docker build -t pinnie/env env
+docker image inspect pinnie/env
+docker container create --name env --env APP_PORT=9090 -p 9090:9090 pinnie/env
+docker container start env
+docker container logs env
+docker container stop env 
 
+# VOLUME Instruction
+docker build -t pinnie/volume volume 
+docker image inspect pinnie/volume 
+docker container create --name volume -p 8080:8080 pinnie/volume 
+docker container start volume
+docker container logs volume
+docker container inspect volume 
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "b47497fbf0c215fdf24169bcbb5324291340a33589c9c5ce59343bdbf2d81ad5",
+                "Source": "/var/lib/docker/volumes/b47497fbf0c215fdf24169bcbb5324291340a33589c9c5ce59343bdbf2d81ad5/_data",
+                "Destination": "/logs",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+]
+
+
+
+#
 
