@@ -74,5 +74,26 @@ docker container inspect volume
 
 
 
-#
+# WORKDIR Instruction 
+dokcer build -t pinnie/workdir workdir
+docker container create --name workdir -p 8080:8080 pinnie/workdir
+docker container start workdir
+
+docker container exec -i -t workdir /bin/sh
+
+
+# USER Instruction
+docker build -t pinnie/user user
+docker container create --name user -p 8080:8080 pinnie/user
+docker container start user
+
+docker container exec -i -t user /bin/sh
+
+
+# ARG Instruction
+docker build -t pinnie/arg arg --build-arg app=pinn   # ARG hanya bisa di akses pada saat build time
+docker container create --name arg -p 8080:8080 pinnie/arg # CMD itu pada saat runtime
+docker container start arg
+docker container exec -i -t arg /bin/sh
+
 
