@@ -97,3 +97,17 @@ docker container start arg
 docker container exec -i -t arg /bin/sh
 
 
+# HEALTHCHECK Instruction
+docker build -t pinnie/health health 
+docker container create --name health -p 8080:8080 pinnie/health
+docker container start health
+docker container ls 
+docker container inspect health 
+
+# ENTRYPOINT Instruction
+docker build -t pinnie/entrypoint entrypoint
+docker image inspect pinnie/entrypoint
+docker container create --name entrypoint -p 8080:8080 pinnie/entrypoint
+docker container start entrypoint 
+
+# 
