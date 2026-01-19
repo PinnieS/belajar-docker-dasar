@@ -115,3 +115,7 @@ docker build -t pinnie/multi multi
 docker image ls
 docker container create --name multi -p 8080:8080 pinnie/multi 
 docker container start multi   
+
+# Docker Hub Registry 
+docker push pinnie/multi 
+
