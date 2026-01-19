@@ -110,4 +110,8 @@ docker image inspect pinnie/entrypoint
 docker container create --name entrypoint -p 8080:8080 pinnie/entrypoint
 docker container start entrypoint 
 
-# 
+# Multi Stage Build 
+docker build -t pinnie/multi multi 
+docker image ls
+docker container create --name multi -p 8080:8080 pinnie/multi 
+docker container start multi   
