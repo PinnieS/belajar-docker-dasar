@@ -1,0 +1,17 @@
+firstName: Bernardus
+MiddleName: Alvin
+LastName: Rig
+hobbies:
+  -Coding 
+  -Gaming
+  -Sport
+address:
+  street: JL. Taruna KM 71
+  city: Jakarta
+  province: DKI Jakarta
+  country: Indonesia 
+wallet:
+  -type: cash
+  amount: 1000000
+  -type: debit
+  amount: 5000000

@@ -1,0 +1,26 @@
+{
+    "firstName": "Bernardus",
+    "middleName": "Alvin",
+    "lastName" : "Rig",
+    "hobbies" : [
+        "Coding",
+        "Gaming",
+        "Sport"
+    ],
+    "address" : {
+        "street": "JL. Taruna KM 71",
+        "city": "Jakarta",
+        "province" : "DKI Jakarta",
+        "country": "Indonesia"
+    },
+    "wallet": [
+        {
+            "type" : "Cash",
+            "amount" : 1000000
+        },
+        {
+            "type" : "debit",
+            "amount": 5000000
+        }
+    ]
+}
