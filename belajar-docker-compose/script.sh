@@ -8,3 +8,6 @@ docker compose ps
 
 # Menghapus container 
 docker compose down 
+
+# Kode project name
+docker compose ls
