@@ -12,6 +12,7 @@ services:
       MONGO_INITDB_DATABASE: admin
     networks:
       - network_example
+    
 
   mongodb-express-example:
     image: mongo-express:latest
