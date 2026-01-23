@@ -15,4 +15,10 @@ docker compose ls
 # Melihat kejadian apa saja yang terjadi di dalem Docker secara realtime
 docker events --filter 'container=(nama container)'
 
+# Konfigurasi Multi-Lingkungan (Environment Overrides) // Kode extend service //Multi-environments
+docker compose -f dev.yaml 
+docker compose -f docker-compose.yaml -f dev.yaml create
+docker compose -f docker-compose.yaml -f dev.yaml start
+
+
 
