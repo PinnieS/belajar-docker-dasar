@@ -6,7 +6,7 @@ docker compose stop     # Memberhentikan
 # Melihat Container 
 docker compose ps 
 
-# Menghapus container 
+# Menghapus container // volume dan image tidak ikut terhapus  
 docker compose down 
 
 # Kode project name
