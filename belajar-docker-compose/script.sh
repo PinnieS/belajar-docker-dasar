@@ -11,3 +11,6 @@ docker compose down
 
 # Kode project name
 docker compose ls
+
+# Melihat kejadian apa saja yang terjadi di dalem Docker secara realtime
+docker events --filter 'container=(nama container)'
