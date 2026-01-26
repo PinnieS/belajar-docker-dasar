@@ -1,0 +1,62 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: wiki-db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 512M
+        reservations:
+          cpus: "0.10"
+          memory: 128M
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wikijs
+      POSTGRES_USER: alvin
+      POSTGRES_PASSWORD: "12345"
+    volumes:
+      - db-data:/var/lib/postgresql/data # Menyimpan di Docker Volume
+#      - ./db-data:/var/lib/postgresql/data # Menyimpan di local storage
+    healthcheck:
+      # test: ["CMD-SHELL", "psql -U dapid -d wikijs -c 'SELECT 1'"]
+      test: ["CMD-SHELL", "pg_isready -U alvin -d wikijs"] 
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  wiki:
+    image: ghcr.io/requarks/wiki:2
+    container_name: wiki-app
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 512M
+        reservations:
+          cpus: "0.10"
+          memory: 128M
+    depends_on:
+      db: 
+        condition: service_healthy 
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: alvin
+      DB_PASS: "12345"
+      DB_NAME: wikijs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3000/healthz', (res) => { if (res.statusCode === 200) { process.exit(0); } else { process.exit(1); } })\""]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    ports:
+      - "3001:3000"
+
+volumes:
+  db-data:
+    name: wiki-db 
