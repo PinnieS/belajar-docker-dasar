@@ -1,3 +1,4 @@
 mongo-data/
 backup/
 *.tar.gz
+memos_data/
