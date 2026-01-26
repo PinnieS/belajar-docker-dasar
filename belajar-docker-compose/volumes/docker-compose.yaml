@@ -14,7 +14,7 @@ services:
     volumes:
       - "mongo-data1:/data/db"
 
-# Long syntax
+# Long syntax 
   mongodb2:
     image: mongo:latest
     container_name: mongodb2
