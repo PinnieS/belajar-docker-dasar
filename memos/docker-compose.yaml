@@ -7,7 +7,7 @@ services:
       - "9000:5230"
     volumes:
       - ./memos_data:/var/opt/memos
-    restart: always
+    restart: no
   my-portfolio:
     build:
       context: ../../Project-Alpin/Portfolio-Website
@@ -15,4 +15,5 @@ services:
     container_name: portfolio_container
     ports:
       - "8080:80"
+    restart: no 
 

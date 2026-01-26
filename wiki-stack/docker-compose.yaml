@@ -10,7 +10,7 @@ services:
         reservations:
           cpus: "0.10"
           memory: 128M
-    restart: unless-stopped
+    restart: no 
     environment:
       POSTGRES_DB: wikijs
       POSTGRES_USER: alvin
@@ -47,7 +47,7 @@ services:
       DB_USER: alvin
       DB_PASS: "12345"
       DB_NAME: wikijs
-    restart: unless-stopped
+    restart: no
     healthcheck:
       test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3000/healthz', (res) => { if (res.statusCode === 200) { process.exit(0); } else { process.exit(1); } })\""]
       interval: 30s
