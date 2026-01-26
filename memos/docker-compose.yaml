@@ -1,0 +1,18 @@
+# implement multi-container orchestration for portfolio & memos
+services:
+  memos-app:
+    image: neosmemo/memos:stable
+    container_name: memos_container
+    ports:
+      - "9000:5230"
+    volumes:
+      - ./memos_data:/var/opt/memos
+    restart: always
+  my-portfolio:
+    build:
+      context: ../../Project-Alpin/Portfolio-Website
+      dockerfile: Dockerfile
+    container_name: portfolio_container
+    ports:
+      - "8080:80"
+
