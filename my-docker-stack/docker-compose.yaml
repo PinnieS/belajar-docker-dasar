@@ -1,0 +1,116 @@
+services:
+  # Heimdall
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ= Asia/Jakarta
+      - ALLOW_INTERNAL_REQUESTS=true
+    volumes:
+      - heimdall_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: "no"
+    networks:
+      - internal-stack
+
+  # Memos-App
+  memos-app:
+    image: neosmemo/memos:stable
+    container_name: memos_container
+    ports:
+      - "5230:5230"
+    volumes:
+    - memos_data:/var/opt/memos
+    restart: "no"
+    networks:
+      - internal-stack
+
+  # Portfolio-Website
+  my-portfolio:
+    build: 
+      context: ../../Project-Alpin/Portfolio-Website
+      dockerfile: Dockerfile
+    container_name: portfolio_container
+    ports:
+      - "8080:80"
+    restart: "no"
+    networks:
+      - internal-stack
+  
+  # Uptime-Kuma
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime-kuma
+    restart: "no"
+    volumes:
+      - uptime_kuma_data:/app/data
+    ports:
+      - "3001:3001"
+    networks:
+      - internal-stack
+  
+  # Wiki & DB 
+  db:
+    image: postgres:15-alpine
+    container_name: wiki-db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 512M
+        reservations:
+          cpus: "0.10"
+          memory: 128M
+    environment:
+      POSTGRES_DB: wikijs
+      POSTGRES_USER: alvin
+      POSTGRES_PASSWORD: "12345"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alvin -d wikijs"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: "no"
+    networks:
+      - internal-stack
+  
+  wiki:
+    image: ghcr.io/requarks/wiki:2
+    container_name: wiki-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: alvin
+      DB_PASS: "12345"
+      DB_NAME: wikijs
+    ports:
+      - "3000:3000"
+    restart: "no"
+    networks:
+      - internal-stack
+
+#Infrastructure 
+networks:
+  internal-stack:
+    name: internal-stack
+    driver: bridge
+volumes:
+  heimdall_config:
+    name: heimdall-config-vol
+  memos_data:
+    name: memos-data-vol
+  uptime_kuma_data:
+    name: uptime-kuma-vol
+  db-data:
+    name: wiki-db-vol
