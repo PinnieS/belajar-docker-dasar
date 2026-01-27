@@ -11,7 +11,7 @@ services:
     volumes:
       - heimdall_config:/config
     ports:
-      - "80:80"
+      - "${PORT_HEIMDALL}:80"
       - "443:443"
     restart: "no"
     networks:
@@ -22,7 +22,7 @@ services:
     image: neosmemo/memos:stable
     container_name: memos_container
     ports:
-      - "5230:5230"
+      - "${PORT_MEMOS}:5230"
     volumes:
     - memos_data:/var/opt/memos
     restart: "no"
@@ -36,7 +36,7 @@ services:
       dockerfile: Dockerfile
     container_name: portfolio_container
     ports:
-      - "8080:80"
+      - "${PORT_PORTFOLIO}:80"
     restart: "no"
     networks:
       - internal-stack
@@ -49,7 +49,7 @@ services:
     volumes:
       - uptime_kuma_data:/app/data
     ports:
-      - "3001:3001"
+      - "${PORT_KUMA}:3001"
     networks:
       - internal-stack
   
@@ -66,9 +66,9 @@ services:
           cpus: "0.10"
           memory: 128M
     environment:
-      POSTGRES_DB: wikijs
-      POSTGRES_USER: alvin
-      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
@@ -91,11 +91,11 @@ services:
       DB_TYPE: postgres
       DB_HOST: db
       DB_PORT: 5432
-      DB_USER: alvin
-      DB_PASS: "12345"
-      DB_NAME: wikijs
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     ports:
-      - "3000:3000"
+      - "${PORT_WIKI}:3000"
     restart: "no"
     networks:
       - internal-stack
