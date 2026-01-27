@@ -3,3 +3,4 @@ backup/
 *.tar.gz
 memos_data/
 wiki-stack/db-data/
+.env
