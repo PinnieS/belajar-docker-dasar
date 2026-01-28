@@ -4,3 +4,5 @@ backup/
 memos_data/
 wiki-stack/db-data/
 .env
+npm-data/
+npm-letsencrypt/
