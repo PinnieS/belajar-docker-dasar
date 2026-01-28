@@ -6,13 +6,12 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ= Asia/Jakarta
+      - TZ=Asia/Jakarta
       - ALLOW_INTERNAL_REQUESTS=true
     volumes:
       - heimdall_config:/config
     ports:
       - "${PORT_HEIMDALL}:80"
-      - "443:443"
     restart: "no"
     networks:
       - internal-stack
@@ -72,7 +71,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U alvin -d wikijs"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -99,6 +98,21 @@ services:
     restart: "no"
     networks:
       - internal-stack
+
+  nginx-proxy:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: nginx-proxy
+    restart: "no"
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ./npm-data:/data
+      - ./npm-letsencrypt:/etc/letsencrypt
+    networks:
+      - internal-stack
+
 
 #Infrastructure 
 networks:
